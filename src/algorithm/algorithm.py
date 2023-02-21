@@ -15,6 +15,7 @@ class NoSolutionFoundException(Exception):
 class Result:
     node: Node
     number_of_explored_states: int
+    complete_board: list
 
 
 def breadth_first_search(board: Board, max_depth: int = 1000) -> Result:
@@ -22,6 +23,7 @@ def breadth_first_search(board: Board, max_depth: int = 1000) -> Result:
     visited_nodes: Set[Board] = set()
     root = Node(board)
     queue = list([root])
+    complete_board =[]
 
     if root.board.is_final_configuration():
         return Result(root, len(visited_nodes))
@@ -31,7 +33,8 @@ def breadth_first_search(board: Board, max_depth: int = 1000) -> Result:
         depth = current_node.depth
 
         if current_node.board.is_final_configuration():
-            return Result(current_node, len(visited_nodes))
+            
+            return Result(node, len(visited_nodes), complete_board)
         else:
             for possible_move in current_node.board.get_moves():
                 child_board = current_node.board.move_vehicle(move=possible_move)
@@ -44,7 +47,8 @@ def breadth_first_search(board: Board, max_depth: int = 1000) -> Result:
                     queue.append(node)
 
                     if child_board.is_final_configuration():
-                        return Result(node, len(visited_nodes))
+                        complete_board= child_board
+                        return Result(node, len(visited_nodes), complete_board)
 
     raise NoSolutionFoundException()
 
@@ -54,9 +58,10 @@ def depth_first_search(board: Board, max_depth: int = 10000) -> Result:
     visited_nodes: Set[Board] = set()
     root = Node(board)
     queue = list([root])
+    complete_board =[]
 
     if root.board.is_final_configuration():
-        return Result(root, len(visited_nodes))
+        return Result(node, len(visited_nodes), complete_board)
 
     while len(queue) & depth < max_depth:
         current_node = queue.pop()
@@ -73,7 +78,7 @@ def depth_first_search(board: Board, max_depth: int = 10000) -> Result:
                 queue.append(node)
 
                 if child_board.is_final_configuration():
-                    return Result(node, len(visited_nodes))
+                    return Result(node, len(visited_nodes), complete_board)
 
     raise NoSolutionFoundException
 
@@ -86,9 +91,10 @@ def iterative_deepening_depth_first_search(
     root = Node(board)
     stack = collections.deque()
     stack.append(root)
+    complete_board =[]
 
     if root.board.is_final_configuration():
-        return Result(root, len(visited_nodes))
+        return Result(node, len(visited_nodes), complete_board)
 
     while len(stack):
         current_node = stack.popleft()
@@ -105,7 +111,7 @@ def iterative_deepening_depth_first_search(
                 stack.append(node)
 
                 if child_board.is_final_configuration():
-                    return Result(node, len(visited_nodes))
+                    return Result(node, len(visited_nodes), complete_board)
 
         if len(stack) == 0 and local_max_depth <= max_depth:
             stack.append(root)
@@ -122,9 +128,10 @@ def a_star(board: Board, max_depth: int = 1000) -> Result:
     sorted_list: List[Node] = list()
     root = Node(board, depth)
     heapq.heappush(sorted_list, root)
+    complete_board =[]
 
     if root.board.is_final_configuration():
-        return Result(root, len(visited_nodes))
+        return Result(node, len(visited_nodes), complete_board)
 
     while len(sorted_list) & depth < max_depth:
         current_node = heapq.heappop(sorted_list)
@@ -144,7 +151,7 @@ def a_star(board: Board, max_depth: int = 1000) -> Result:
                 heapq.heappush(sorted_list, node)
 
                 if child_board.is_final_configuration():
-                    return Result(node, len(visited_nodes))
+                    return Result(node, len(visited_nodes), complete_board)
 
     raise NoSolutionFoundException
 
@@ -154,9 +161,10 @@ def beam_search(board: Board, width: int = 2, max_depth: int = 1000) -> Result:
     visited_nodes: Set[Board] = set()
     root = Node(board, depth)
     queue: List[Node] = list([root])
+    complete_board =[]
 
     if root.board.is_final_configuration():
-        return Result(root, len(visited_nodes))
+        return Result(node, len(visited_nodes), complete_board)
 
     while len(queue) & depth < max_depth:
         current_node = queue.pop(0)
@@ -179,7 +187,7 @@ def beam_search(board: Board, width: int = 2, max_depth: int = 1000) -> Result:
                 heapq.heappush(beam, node)
 
                 if child_board.is_final_configuration():
-                    return Result(node, len(visited_nodes))
+                    return Result(node, len(visited_nodes), complete_board)
 
         for i, child in enumerate(beam):
             if i < width:
