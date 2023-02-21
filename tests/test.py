@@ -10,6 +10,10 @@ from src.model.board import Board
 - 
 
 """
+board_A =  Board.from_csv("./boards/Tests/boardA.csv")
+board_A_solved2 = Board.from_csv("./boards/Tests/boardAS.csv")
 class TestRushHour(unittest.TestCase):
-        def test(self):
-            return
+
+        def test_bfs(self):
+            result = breadth_first_search(board_A, 1000)
+            self.assertEqual(result.complete_board, board_A_solved2)
