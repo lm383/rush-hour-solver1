@@ -1,5 +1,5 @@
 import time
-
+import os
 #import click
 
 from src.algorithm.algorithm import (a_star, beam_search, breadth_first_search,
@@ -28,6 +28,7 @@ ALGORITHM_NAME_MAPPING = {
 
 def solve2(algorithm, board, id):
     algorithm_implementation = ALGORITHM_NAME_MAPPING[algorithm]
+    # This will solve boards in the sub folders 6x6/7x7/8x8/etc depending on the board variable
     board_to_solve = Board.from_csv("./boards/"+board+"/board"+board+"_"+id+".csv")
 
     start = time.perf_counter()
@@ -58,116 +59,59 @@ def solve(algorithm: str, board: str) -> None:
 if __name__ == "__main__":
     #solve()
     alo = "astar"
+    board = os.path.join(os.path.dirname(__file__), "./boards/board1.csv")
 
-    board = "6x6"
-    #print(board+" 1:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    # print(board+" 2:")
-    # for count in range(1,11):
-    #     solve2(alo, board, str(count))
-    # print(board+" 3:")
-    # for count in range(1,11):
-    #     solve2(alo, board, str(count))
+    solve(alo, board)
+
     """
+    # This following code was used to solve all the boards in the 6x6/7x7/8x8/etc folders
+    board = "6x6"
+    #this will solve all boards in folder 6x6
+    for count in range(1,11):
+        solve2(alo, board, str(count))
+    
     board = "7x7"
-    print(board+" 1:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 2:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 3:")
+    #this will solve all boards in folder 7x7
     for count in range(1,11):
         solve2(alo, board, str(count))
 
     board = "8x8"
-    print(board+" 1:")
     for count in range(1,11):
         solve2(alo, board, str(count))
-    print(board+" 2:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 3:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
+
 
     board = "9x9"
-    print(board+" 1:")
     for count in range(1,11):
         solve2(alo, board, str(count))
-    print(board+" 2:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 3:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
+
 
     board = "10x10"
-    print(board+" 1:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 2:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 3:")
     for count in range(1,11):
         solve2(alo, board, str(count))
 
+
     board = "11x11"
-    print(board+" 1:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 2:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 3:")
+
     for count in range(1,11):
         solve2(alo, board, str(count))
 
     board = "12x12"
-    print(board+" 1:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 2:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 3:")
     for count in range(1,11):
         solve2(alo, board, str(count))
 
-    # beam still need rest:
+
     board = "13x13"
-    print(board+" 1:")
-    # for count in range(1,11):
-    #     solve2(alo, board, str(count))
-    # print(board+" 2:")
-    # for count in range(1,11):
-    #     solve2(alo, board, str(count))
-    print(board+" 3:")
     for count in range(1,11):
         solve2(alo, board, str(count))
+
 
     board = "14x14"
-    print(board+" 1:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 2:")
-    for count in range(1,11):
-        solve2(alo, board, str(count))
-    print(board+" 3:")
     for count in range(1,11):
         solve2(alo, board, str(count))
 
+
     board = "15x15"
-    # print(board+" 1:")
-    # for count in range(1,11):
-    #     solve2(alo, board, str(count))
-    # print(board+" 2:")
-    # for count in range(1,11):
-    #     solve2(alo, board, str(count))
-    print(board+" 3:")
-    for count in range(7,11):
+    for count in range(1,11):
         solve2(alo, board, str(count))"""
     
     print("done!")
